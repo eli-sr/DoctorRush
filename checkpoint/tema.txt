@@ -1,0 +1,13 @@
+Videojuego
+
+Tema:
+En un aeropuerto muy famoso de la ciudad ha venido gente contagiada de un hongo
+muy peligroso, y nosotros, el médico más intrépido de la ciudad, tenemos la
+vacuna, por lo que iremos al aeropuerto a vacunar al máximo de personas posibles.
+
+Jugabilidad:
+El médico corre de manera indefinida de manera vertical. El terreno es infinito
+y se va mostrando a medida que el médico avanza. Mientras el médico solo corre hacia
+adelante, aparecen personas infectadas. El médico se debe acercar a ellos para curarlos.
+Hay un contador de personas curadas y otro de personas no curadas. Si el numero de personas
+no curadas supera un umbral, el juego se acaba.
