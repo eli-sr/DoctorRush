@@ -20,6 +20,19 @@ html,body {
     aspect-ratio: 1/1;
     background-color: red;
     position: absolute;
-    bottom: 120px;
+    top: 500px;
     left: 350px;
+}
+
+.zombie {
+    width: 50px;
+    aspect-ratio: 1/1;
+    background-color: green;
+    position: absolute;
+    top: -50px;
+}
+
+#score {
+    font-size: x-large;
+    color: white;
 }
