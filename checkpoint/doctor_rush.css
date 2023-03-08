@@ -15,6 +15,13 @@ html,body {
     position: relative;
 }
 
+#shot-area {
+    width: 750px;
+    height: 625px;
+    position: absolute;
+    z-index: 1;
+}
+
 #doctor {
     width: 50px;
     aspect-ratio: 1/1;
@@ -35,4 +42,11 @@ html,body {
 #score {
     font-size: x-large;
     color: white;
+}
+
+.bullet {
+    width: 10px;
+    aspect-ratio: 1/1;
+    background-color: yellow;
+    position: absolute;
 }

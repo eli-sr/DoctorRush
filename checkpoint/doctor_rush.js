@@ -16,28 +16,14 @@ function moveIsOk(destination) {
   // return destination >= 0 && destination <= widthGame - widthDoctor
 }
 
-function move(element, direction, step) {
+function move(element, dir, step) {
   var pos = parseInt(getComputedStyle(element).top)
-  if (direction === 'left' || direction === 'right') pos = parseInt(getComputedStyle(element).left)
+  if (dir === 'left' || dir === 'right') pos = parseInt(getComputedStyle(element).left)
   var moveStep = step
-  if (direction === 'left' || direction === 'up') moveStep = -step
-  var destination = pos + moveStep
-  switch (direction) {
-    case 'up':
-      if (moveIsOk(destination)) element.style.top = `${destination}px`
-      break
-    case 'down':
-      if (moveIsOk(destination)) element.style.top = `${destination}px`
-      break
-    case 'left':
-      if (moveIsOk(destination)) element.style.left = `${destination}px`
-      break
-    case 'right':
-      if (moveIsOk(destination)) element.style.left = `${destination}px`
-      break
-    default:
-      break
-  }
+  if (dir === 'left' || dir === 'up') moveStep = -step
+  var dest = pos + moveStep
+  if (dir === 'left' || dir === 'right') element.style.left = `${dest}px`
+  else element.style.top = `${dest}px`
 }
 
 function moveDoctor(event) {
@@ -69,6 +55,7 @@ function addZombie() {
   const zombie = document.createElement('div')
   zombie.classList.add('zombie')
   zombie.style.left = `${randomPos()}px`
+  zombie.setAttribute('data-hp', 3)
   game.appendChild(zombie)
 }
 
@@ -90,19 +77,86 @@ function moveAllZombies() {
   }
 }
 
+// Bullet
+
+function vector(xM, yM, xD, yD, step) {
+  const x = xM - xD
+  const y = yM - yD
+  const orModule = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+  const xFinal = Math.floor((x / orModule) * step)
+  const yFinal = Math.floor((y / orModule) * step)
+  return [xFinal, yFinal]
+}
+
+function addBullet() {
+  const bullet = document.createElement('div')
+  bullet.classList.add('bullet')
+  bullet.style.left = `${parseInt(styleDoctor.left)}px`
+  bullet.style.top = `${parseInt(styleDoctor.top)}px`
+  game.appendChild(bullet)
+  return bullet
+}
+
+function shoot(event) {
+  const xMouse = event.layerX
+  const yMouse = event.layerY
+  const xDoc = parseInt(styleDoctor.left)
+  const yDoc = parseInt(styleDoctor.top)
+  const [x, y] = vector(xMouse, yMouse, xDoc, yDoc, 20)
+  const bullet = addBullet()
+  const moveBulletXY = () => {
+    if (isCollidingBullet(bullet)) {
+      clearInterval(moveBullet)
+      bullet.remove()
+      return
+    }
+    move(bullet, 'right', x)
+    move(bullet, 'down', y)
+  }
+  var moveBullet = setInterval(moveBulletXY, 40)
+}
+
+const shootArea = document.getElementById('shot-area')
+
 function initializeGame() {
   document.addEventListener('keypress', moveDoctor)
+  shootArea.addEventListener('click', shoot)
   var addZombies = setInterval(addZombie, 2000)
   var moveZombies = setInterval(moveAllZombies, 1000)
-  // test
+}
+
+// Score
+function updateScore(inc) {
   const scorehtml = document.getElementById('score')
-  document.addEventListener('keypress', (event) => {
-    if (event.key === ' ') {
-      score += 10
-      scorehtml.innerHTML = score
+  // const score = parseInt(scorehtml.innerHTML)
+  score += inc
+  scorehtml.innerHTML = score
+}
+
+// Collision
+
+function isCollidingBullet(bullet) {
+  const zombies = game.getElementsByClassName('zombie')
+  for (let i = 0; i < zombies.length; i++) {
+    const zombie = zombies[i]
+    // if (checkCollision(bullet, zombie)) return
+    if (checkCollision(bullet, zombie)) {
+      console.log('Hay colision!')
+      const newHp = zombie.getAttribute('data-hp') - 1
+      zombie.setAttribute('data-hp', newHp)
+      if (newHp === 0) {
+        updateScore(10)
+        zombie.remove()
+      }
+      return true
     }
-  })
-  // ftest
+  }
+}
+
+function checkCollision(element1, element2) {
+  const rect1 = element1.getBoundingClientRect()
+  const rect2 = element2.getBoundingClientRect()
+  return rect1.right > rect2.left && rect1.left < rect2.right && rect1.bottom > rect2.top && rect1.top < rect2.bottom
 }
 
 window.onload = function () {
