@@ -59,18 +59,14 @@ function addZombie() {
   game.appendChild(zombie)
 }
 
-function removeZombie(zombie) {
-  zombie.remove()
-}
-
 var score = 0
 
 function moveAllZombies() {
   const zombies = game.getElementsByClassName('zombie')
   for (let i = 0; i < zombies.length; i++) {
     const zombie = zombies[i]
-    if (parseInt(zombie.style.top) > heightGame) {
-      removeZombie(zombie)
+    if (isOut(zombie)) {
+      zombie.remove()
       continue
     }
     move(zombie, 'down', 20 + Math.floor(score / 10))
@@ -97,6 +93,15 @@ function addBullet() {
   return bullet
 }
 
+function isOut(element) {
+  const style = getComputedStyle(element)
+  const width = parseInt(style.width)
+  const height = parseInt(style.height)
+  const top = parseInt(element.style.top)
+  const left = parseInt(element.style.left)
+  return top + height < 0 || top > heightGame || left + width < 0 || left > widthGame
+}
+
 function shoot(event) {
   const xMouse = event.layerX
   const yMouse = event.layerY
@@ -104,8 +109,9 @@ function shoot(event) {
   const yDoc = parseInt(styleDoctor.top)
   const [x, y] = vector(xMouse, yMouse, xDoc, yDoc, 20)
   const bullet = addBullet()
+  const bulletWidth = 10
   const moveBulletXY = () => {
-    if (isCollidingBullet(bullet)) {
+    if (isCollidingBullet(bullet) || isOut(bullet)) {
       clearInterval(moveBullet)
       bullet.remove()
       return
