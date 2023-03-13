@@ -27,13 +27,16 @@ function move(element, dir, step) {
 }
 
 function moveDoctor(event) {
+  if (gameOver) return
   const key = event.key
   switch (key) {
     case 'a':
       move(doctor, 'left', stepDoctor)
+      checkGameOver(zombies)
       break
     case 'd':
       move(doctor, 'right', stepDoctor)
+      checkGameOver(zombies)
       break
     default:
       break
@@ -60,9 +63,9 @@ function addZombie() {
 }
 
 var score = 0
+const zombies = game.getElementsByClassName('zombie')
 
 function moveAllZombies() {
-  const zombies = game.getElementsByClassName('zombie')
   for (let i = 0; i < zombies.length; i++) {
     const zombie = zombies[i]
     if (isOut(zombie)) {
@@ -70,6 +73,22 @@ function moveAllZombies() {
       continue
     }
     move(zombie, 'down', 20 + Math.floor(score / 10))
+  }
+  checkGameOver(zombies)
+}
+
+// Game Over
+
+let gameOver = false
+function checkGameOver(zombieArray) {
+  for (let i = 0; i < zombieArray.length; i++) {
+    const zombie = zombies[i]
+    if (checkCollision(doctor, zombie)) {
+      clearInterval(moveZombies)
+      clearInterval(addZombies)
+      console.log('[!] Game over!')
+      gameOver = true
+    }
   }
 }
 
@@ -103,13 +122,13 @@ function isOut(element) {
 }
 
 function shoot(event) {
+  if (gameOver) return
   const xMouse = event.layerX
   const yMouse = event.layerY
   const xDoc = parseInt(styleDoctor.left)
   const yDoc = parseInt(styleDoctor.top)
   const [x, y] = vector(xMouse, yMouse, xDoc, yDoc, 20)
   const bullet = addBullet()
-  const bulletWidth = 10
   const moveBulletXY = () => {
     if (isCollidingBullet(bullet) || isOut(bullet)) {
       clearInterval(moveBullet)
@@ -123,18 +142,20 @@ function shoot(event) {
 }
 
 const shootArea = document.getElementById('shot-area')
+let addZombies
+let moveZombies
 
 function initializeGame() {
   document.addEventListener('keypress', moveDoctor)
   shootArea.addEventListener('click', shoot)
-  var addZombies = setInterval(addZombie, 2000)
-  var moveZombies = setInterval(moveAllZombies, 1000)
+  addZombies = setInterval(addZombie, 2000)
+  moveZombies = setInterval(moveAllZombies, 1000)
+  // moveZombies = setInterval(moveAllZombies, 200)
 }
 
 // Score
 function updateScore(inc) {
   const scorehtml = document.getElementById('score')
-  // const score = parseInt(scorehtml.innerHTML)
   score += inc
   scorehtml.innerHTML = score
 }
@@ -145,7 +166,6 @@ function isCollidingBullet(bullet) {
   const zombies = game.getElementsByClassName('zombie')
   for (let i = 0; i < zombies.length; i++) {
     const zombie = zombies[i]
-    // if (checkCollision(bullet, zombie)) return
     if (checkCollision(bullet, zombie)) {
       console.log('Hay colision!')
       const newHp = zombie.getAttribute('data-hp') - 1
