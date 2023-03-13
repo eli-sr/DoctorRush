@@ -54,15 +54,16 @@ function randomPos() {
   return randomNum
 }
 
-let bufferAddLimit = 1000
+let bufferAddLimit = 1500
 let bufferAdd = 0
 function addZombie() {
-  if (bufferAdd < bufferAddLimit - score) {
-    bufferAdd += 200
+  const limit = bufferAddLimit - Math.sqrt((bufferAddLimit * score) / 2)
+  if (bufferAdd < limit) {
+    bufferAdd += 20
     return
   }
   bufferAdd = 0
-  console.log('add', bufferAdd, ':', bufferAddLimit - score)
+  // console.log('add', bufferAddLimit - score, ':', limit)
   const zombie = document.createElement('div')
   zombie.classList.add('zombie')
   zombie.style.left = `${randomPos()}px`
@@ -73,22 +74,22 @@ function addZombie() {
 var score = 0
 const zombies = game.getElementsByClassName('zombie')
 
-let bufferMoveLimit = 500
+let bufferMoveLimit = 1000
 let bufferMove = 0
 function moveAllZombies() {
-  if (bufferMove < bufferMoveLimit - score) {
-    bufferMove += 100
+  const limit = bufferMoveLimit - Math.sqrt((bufferMoveLimit * score) / 2)
+  if (bufferMove < limit) {
+    bufferMove += 10
     return
   }
   bufferMove = 0
-  console.log('move', bufferMove, ':', bufferMoveLimit - score)
+  // console.log('move', bufferMove, ':', limit)
   for (let i = 0; i < zombies.length; i++) {
     const zombie = zombies[i]
     if (isOut(zombie)) {
       zombie.remove()
       continue
     }
-    // move(zombie, 'down', 20 + Math.floor(score / 10))
     move(zombie, 'down', 20)
   }
   checkGameOver(zombies)
@@ -165,10 +166,8 @@ let moveZombies
 function initializeGame() {
   document.addEventListener('keypress', moveDoctor)
   shootArea.addEventListener('click', shoot)
-  // addZombies = setInterval(addZombie, 2000)
-  addZombies = setInterval(addZombie, 200)
-  // moveZombies = setInterval(moveAllZombies, 1000)
-  moveZombies = setInterval(moveAllZombies, 100)
+  addZombies = setInterval(addZombie, 20)
+  moveZombies = setInterval(moveAllZombies, 10)
 }
 
 // Score
