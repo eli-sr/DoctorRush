@@ -8,6 +8,29 @@ html,body {
     background-color: gray;
 }
 
+#interface {
+    width: 750px;
+    height: 625px;
+    z-index: 1;
+    position: absolute;
+    display: flex;
+}
+
+#game-over {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    visibility: hidden;
+}
+
+#game-over p{
+    background-color: red;
+    font-size: xx-large;
+    width: 100%;
+    text-align: center;
+}
+
 #game-container {
     width: 750px;
     height: 625px;
@@ -39,10 +62,11 @@ html,body {
     top: -50px;
 }
 
-#score {
+.score {
     font-size: x-large;
     color: white;
     user-select: none;
+    position: absolute;
 }
 
 .bullet {

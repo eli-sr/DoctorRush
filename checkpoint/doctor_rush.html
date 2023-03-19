@@ -5,12 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doctor Rush</title>
-    <link rel="stylesheet" href="doctor_rush.css">
+    <link rel="stylesheet" href="doctor_rush.css" />
   </head>
   <body>
+    <div id="interface">
+      <div class="score">
+        <p class="score">Score: <span id="score" class="score">0</span></p>
+        <br />
+        <p class="score">
+          HighScore:
+          <span id="high-score" class="score">0</span>
+        </p>
+      </div>
+      <div id="game-over">
+        <p>Game over!</p>
+      </div>
+    </div>
     <div id="game-container">
       <div id="shot-area"></div>
-      <div class="score"><span id="score">0</span></div>
       <div id="doctor"></div>
       <div id="zombies-container"></div>
     </div>

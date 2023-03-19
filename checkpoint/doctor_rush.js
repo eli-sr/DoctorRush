@@ -19,7 +19,6 @@ const zombies = game.getElementsByClassName('zombie')
 // Bullets
 const shootArea = document.getElementById('shot-area')
 
-
 // *** VARIABLES GLOBALES *** //
 
 // Logica
@@ -36,7 +35,6 @@ let bufferMoveLimit = 1000
 let bufferMove = 0
 let addZombies
 let moveZombies
-
 
 // *** FUNCIONES *** //
 
@@ -68,8 +66,14 @@ function checkGameOver(zombieArray) {
       clearInterval(addZombies)
       console.log('[!] Game over!')
       gameOver = true
+      showGameOver()
     }
   }
+}
+
+function showGameOver() {
+  const gameOver = document.getElementById("game-over")
+  gameOver.style.visibility = "visible"
 }
 
 function isOut(element) {
@@ -85,6 +89,14 @@ function checkCollision(element1, element2) {
   const rect1 = element1.getBoundingClientRect()
   const rect2 = element2.getBoundingClientRect()
   return rect1.right > rect2.left && rect1.left < rect2.right && rect1.bottom > rect2.top && rect1.top < rect2.bottom
+}
+
+function getLocalScore() {
+  score = localStorage.getItem('doctor-rush-score')
+}
+
+function setLocalScore(score) {
+  localStorage.setItem('doctor-rush-score', score)
 }
 
 function updateScore(inc) {
