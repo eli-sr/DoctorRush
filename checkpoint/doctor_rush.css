@@ -18,17 +18,21 @@ html,body {
 
 #game-over {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
+    flex-direction: column;
     visibility: hidden;
+    background-color: red;
+    width: 100%;
+    place-self: center;
+    padding: 20px;
 }
 
-#game-over p{
-    background-color: red;
+#game-over #go{
     font-size: xx-large;
-    width: 100%;
     text-align: center;
+}
+#game-over p {
+    text-align: center;
+    margin: 0;
 }
 
 #game-container {

@@ -72,8 +72,13 @@ function checkGameOver(zombieArray) {
 }
 
 function showGameOver() {
-  const gameOver = document.getElementById("game-over")
-  gameOver.style.visibility = "visible"
+  const gameOver = document.getElementById('game-over')
+  gameOver.style.visibility = 'visible'
+}
+
+function hideGameOver() {
+  const gameOver = document.getElementById('game-over')
+  gameOver.style.visibility = 'hidden'
 }
 
 function isOut(element) {
@@ -99,10 +104,27 @@ function setLocalScore(score) {
   localStorage.setItem('doctor-rush-score', score)
 }
 
-function updateScore(inc) {
+function updateScore(inc,newScore=score) {
   const scorehtml = document.getElementById('score')
-  score += inc
+  score = newScore + inc
   scorehtml.innerHTML = score
+}
+
+function restartGame(event) {
+  const key = event.key
+  if (gameOver && key == 'r') {
+    gameOver = false
+    addZombies = setInterval(addZombie, 20)
+    moveZombies = setInterval(moveAllZombies, 10)
+    // Clear zombies
+    while(zombies.length !== 0){
+      zombies[0].remove()
+    }
+    // Restart score
+    updateScore(0,0)
+    // Remove game-over
+    hideGameOver()
+  }
 }
 
 // Doctor
@@ -158,6 +180,7 @@ function moveAllZombies() {
     const zombie = zombies[i]
     if (isOut(zombie)) {
       zombie.remove()
+      i--
       continue
     }
     move(zombie, 'down', 20)
@@ -222,6 +245,7 @@ function initializeGame() {
   shootArea.addEventListener('click', shoot)
   addZombies = setInterval(addZombie, 20)
   moveZombies = setInterval(moveAllZombies, 10)
+  document.addEventListener('keypress', restartGame)
 }
 
 window.onload = function () {
