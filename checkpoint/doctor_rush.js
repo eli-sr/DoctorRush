@@ -140,7 +140,7 @@ function updateScore(inc, newScore = score) {
 function updateZombiesOutCounter(inc, count = zombiesOutCounter) {
   const zombieshtml = document.getElementById('zombies-out-counter')
   zombiesOutCounter = count + inc
-  zombieshtml.innerHTML = zombiesOutCounter 
+  zombieshtml.innerHTML = zombiesOutCounter
 }
 
 function restartGame(event) {
@@ -153,11 +153,13 @@ function restartGame(event) {
     while (zombies.length !== 0) {
       zombies[0].remove()
     }
+    // Restart doctor pos
+    restartDoctorPos()
     // Restart score
     updateScore(0, 0)
     initHighScore()
     // Restart zombiesOut
-    updateZombiesOutCounter(0,0)
+    updateZombiesOutCounter(0, 0)
     // Remove game-over
     hideGameOver()
   }
@@ -182,6 +184,10 @@ function moveDoctor(event) {
     default:
       break
   }
+}
+
+function restartDoctorPos() {
+  doctor.style.left = `${(widthGame - widthDoctor) / 2}px`
 }
 
 // Zombie
