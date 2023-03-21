@@ -59,6 +59,20 @@ function vector(xM, yM, xD, yD, step) {
   return [xFinal, yFinal]
 }
 
+function calculateStepDoctor(side) {
+  let x = parseInt(doctor.style.left)
+  if (side === 'left') {
+    if (x === 0) return 0
+    if (x - stepDoctor < 0) return -(x - stepDoctor)
+    return stepDoctor
+  } else {
+    x += widthDoctor
+    if (x === widthGame) return 0
+    if (x + stepDoctor > widthGame) return -(widthGame - x - stepDoctor)
+    return stepDoctor
+  }
+}
+
 function checkGameOver(zombieArray) {
   for (let i = 0; i < zombieArray.length; i++) {
     const zombie = zombies[i]
@@ -143,13 +157,16 @@ function restartGame(event) {
 function moveDoctor(event) {
   if (gameOver) return
   const key = event.key
+  let step = stepDoctor
   switch (key) {
     case 'a':
-      move(doctor, 'left', stepDoctor)
+      step = calculateStepDoctor('left')
+      move(doctor, 'left', step)
       checkGameOver(zombies)
       break
     case 'd':
-      move(doctor, 'right', stepDoctor)
+      step = calculateStepDoctor('right')
+      move(doctor, 'right', step)
       checkGameOver(zombies)
       break
     default:
@@ -172,7 +189,6 @@ function addZombie() {
     return
   }
   bufferAdd = 0
-  // console.log('add', bufferAddLimit - score, ':', limit)
   const zombie = document.createElement('div')
   zombie.classList.add('zombie')
   zombie.style.left = `${randomZombiePos()}px`
