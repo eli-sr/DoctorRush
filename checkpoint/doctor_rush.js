@@ -15,6 +15,7 @@ const stepDoctor = 20
 // Zombies
 const widthZombie = widthDoctor
 const zombies = game.getElementsByClassName('zombie')
+const zombiesOutLimit = 5
 
 // Bullets
 const shootArea = document.getElementById('shot-area')
@@ -36,6 +37,7 @@ let bufferMoveLimit = 1000
 let bufferMove = 0
 let addZombies
 let moveZombies
+let zombiesOutCounter = 0
 
 // *** FUNCIONES *** //
 
@@ -73,10 +75,10 @@ function calculateStepDoctor(side) {
   }
 }
 
-function checkGameOver(zombieArray) {
-  for (let i = 0; i < zombieArray.length; i++) {
+function checkGameOver() {
+  for (let i = 0; i < zombies.length; i++) {
     const zombie = zombies[i]
-    if (checkCollision(doctor, zombie)) {
+    if (checkCollision(doctor, zombie) || zombiesOutCounter == zombiesOutLimit) {
       clearInterval(moveZombies)
       clearInterval(addZombies)
       console.log('[!] Game over!')
@@ -135,6 +137,12 @@ function updateScore(inc, newScore = score) {
   scorehtml.innerHTML = score
 }
 
+function updateZombiesOutCounter(inc, count = zombiesOutCounter) {
+  const zombieshtml = document.getElementById('zombies-out-counter')
+  zombiesOutCounter = count + inc
+  zombieshtml.innerHTML = zombiesOutCounter 
+}
+
 function restartGame(event) {
   const key = event.key
   if (gameOver && key == 'r') {
@@ -148,6 +156,8 @@ function restartGame(event) {
     // Restart score
     updateScore(0, 0)
     initHighScore()
+    // Restart zombiesOut
+    updateZombiesOutCounter(0,0)
     // Remove game-over
     hideGameOver()
   }
@@ -207,6 +217,8 @@ function moveAllZombies() {
     const zombie = zombies[i]
     if (isOut(zombie)) {
       zombie.remove()
+      updateZombiesOutCounter(1)
+      checkGameOver()
       i--
       continue
     }
