@@ -22,6 +22,7 @@ const shootArea = document.getElementById('shot-area')
 // *** VARIABLES GLOBALES *** //
 
 // Logica
+var highScore = getLocalScore()
 var score = 0
 let gameOver = false
 
@@ -67,6 +68,7 @@ function checkGameOver(zombieArray) {
       console.log('[!] Game over!')
       gameOver = true
       showGameOver()
+      updateLocalHighScore()
     }
   }
 }
@@ -97,14 +99,23 @@ function checkCollision(element1, element2) {
 }
 
 function getLocalScore() {
-  score = localStorage.getItem('doctor-rush-score')
+  return localStorage.getItem('doctor-rush-score')
 }
 
 function setLocalScore(score) {
   localStorage.setItem('doctor-rush-score', score)
 }
 
-function updateScore(inc,newScore=score) {
+function updateLocalHighScore() {
+  if (score > highScore) setLocalScore(score)
+}
+
+function initHighScore() {
+  const highscorehtml = document.getElementById('high-score')
+  highscorehtml.innerHTML = getLocalScore() ?? 0
+}
+
+function updateScore(inc, newScore = score) {
   const scorehtml = document.getElementById('score')
   score = newScore + inc
   scorehtml.innerHTML = score
@@ -117,11 +128,12 @@ function restartGame(event) {
     addZombies = setInterval(addZombie, 20)
     moveZombies = setInterval(moveAllZombies, 10)
     // Clear zombies
-    while(zombies.length !== 0){
+    while (zombies.length !== 0) {
       zombies[0].remove()
     }
     // Restart score
-    updateScore(0,0)
+    updateScore(0, 0)
+    initHighScore()
     // Remove game-over
     hideGameOver()
   }
@@ -175,7 +187,6 @@ function moveAllZombies() {
     return
   }
   bufferMove = 0
-  // console.log('move', bufferMove, ':', limit)
   for (let i = 0; i < zombies.length; i++) {
     const zombie = zombies[i]
     if (isOut(zombie)) {
@@ -241,6 +252,7 @@ function moveIsOk(destination) {
 }
 
 function initializeGame() {
+  initHighScore()
   document.addEventListener('keypress', moveDoctor)
   shootArea.addEventListener('click', shoot)
   addZombies = setInterval(addZombie, 20)
