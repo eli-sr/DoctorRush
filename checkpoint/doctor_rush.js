@@ -65,12 +65,12 @@ function calculateStepDoctor(side) {
   let x = parseInt(doctor.style.left)
   if (side === 'left') {
     if (x === 0) return 0
-    if (x - stepDoctor < 0) return -(x - stepDoctor)
+    if (x - stepDoctor < 0) return x
     return stepDoctor
   } else {
     x += widthDoctor
     if (x === widthGame) return 0
-    if (x + stepDoctor > widthGame) return -(widthGame - x - stepDoctor)
+    if (x + stepDoctor > widthGame) return widthGame - x
     return stepDoctor
   }
 }

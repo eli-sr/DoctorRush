@@ -58,12 +58,16 @@ html,body {
 }
 
 #doctor {
-    width: 50px;
-    aspect-ratio: 1/1;
-    background-color: red;
+    width: 60px;
+    aspect-ratio: 14/20;
     position: absolute;
     top: 500px;
-    left: 350px;
+    left: calc(750px / 2 - 60px / 2);
+    background-image: url("assets/oak_1.png");
+    background-position: 0 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .zombie {
