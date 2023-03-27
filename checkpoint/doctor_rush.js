@@ -91,12 +91,14 @@ function checkGameOver() {
 
 function showGameOver() {
   const gameOver = document.getElementById('game-over')
-  gameOver.style.visibility = 'visible'
+  // gameOver.style.visibility = 'visible'
+  gameOver.style.display = 'flex'
 }
 
 function hideGameOver() {
   const gameOver = document.getElementById('game-over')
-  gameOver.style.visibility = 'hidden'
+  // gameOver.style.visibility = 'hidden'
+  gameOver.style.display = 'none'
 }
 
 function isOut(element) {
@@ -280,18 +282,20 @@ function isCollidingBullet(bullet) {
 }
 
 // MAIN
-function moveIsOk(destination) {
-  return true
-  // return destination >= 0 && destination <= widthGame - widthDoctor
-}
-
-function initializeGame() {
-  initHighScore()
+function startGame() {
   document.addEventListener('keypress', moveDoctor)
   shootArea.addEventListener('click', shoot)
   addZombies = setInterval(addZombie, 20)
   moveZombies = setInterval(moveAllZombies, 10)
   document.addEventListener('keypress', restartGame)
+  //
+  document.removeEventListener('keypress', startGame)
+  document.getElementById('home').style.display = 'none'
+}
+
+function initializeGame() {
+  initHighScore()
+  document.addEventListener('keypress', startGame)
 }
 
 window.onload = function () {

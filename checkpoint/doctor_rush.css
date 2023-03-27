@@ -17,9 +17,17 @@ html,body {
 }
 
 #game-over {
+    display: none;
+    flex-direction: column;
+    background-color: red;
+    width: 100%;
+    place-self: center;
+    padding: 20px;
+}
+
+#home {
     display: flex;
     flex-direction: column;
-    visibility: hidden;
     background-color: red;
     width: 100%;
     place-self: center;
