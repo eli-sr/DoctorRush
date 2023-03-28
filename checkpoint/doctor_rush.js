@@ -200,6 +200,12 @@ function randomZombiePos() {
   return randomNum
 }
 
+function setZombieSkin(zombie) {
+  const N = 15
+  let i = Math.floor(Math.random() * N) + 1
+  zombie.style.backgroundImage = `url("assets/npc_${i}.png")`
+}
+
 function addZombie() {
   const limit = bufferAddLimit - Math.sqrt((bufferAddLimit * score) / 2)
   if (bufferAdd < limit) {
@@ -210,6 +216,7 @@ function addZombie() {
   const zombie = document.createElement('div')
   zombie.classList.add('zombie')
   zombie.style.left = `${randomZombiePos()}px`
+  setZombieSkin(zombie)
   zombie.setAttribute('data-hp', 3)
   game.appendChild(zombie)
 }

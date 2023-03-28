@@ -48,6 +48,7 @@ html,body {
     height: 625px;
     background-color: black;
     position: relative;
+    overflow: hidden;
 }
 
 #shot-area {
@@ -71,11 +72,14 @@ html,body {
 }
 
 .zombie {
-    width: 50px;
-    aspect-ratio: 1/1;
-    background-color: green;
+    width: 60px;
+    aspect-ratio: 14/20;
     position: absolute;
     top: -50px;
+    background-position: 0 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .score {
