@@ -46,9 +46,11 @@ html,body {
 #game-container {
     width: 750px;
     height: 625px;
-    background-color: black;
     position: relative;
     overflow: hidden;
+    cursor: url("assets/cursor.png"), auto;
+    background-image: url("assets/floor.png");
+    background-position: center center;
 }
 
 #shot-area {
@@ -65,7 +67,6 @@ html,body {
     top: 500px;
     left: calc(750px / 2 - 60px / 2);
     background-image: url("assets/oak_1.png");
-    background-position: 0 0;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -92,6 +93,10 @@ html,body {
 .bullet {
     width: 10px;
     aspect-ratio: 1/1;
-    background-color: yellow;
     position: absolute;
+    background-position: 0 0;
+    background-image: url("assets/bullet.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }

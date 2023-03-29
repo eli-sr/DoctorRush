@@ -16,6 +16,8 @@ const stepDoctor = 20
 const widthZombie = widthDoctor
 const zombies = game.getElementsByClassName('zombie')
 const zombiesOutLimit = 5
+const bufferAddLimit = 1600
+const bufferMoveLimit = 1000
 
 // Bullets
 const shootArea = document.getElementById('shot-area')
@@ -31,13 +33,15 @@ let gameOver = false
 var posDoctor = parseInt(styleDoctor.left)
 
 // Zombies
-let bufferAddLimit = 1500
 let bufferAdd = 0
-let bufferMoveLimit = 1000
 let bufferMove = 0
 let addZombies
 let moveZombies
 let zombiesOutCounter = 0
+
+// *** AUDIO*** //
+const audioShoot = new Audio('assets/audio/bullet.wav')
+const audioZombieDie = new Audio('assets/audio/zombie_die.wav')
 
 // *** FUNCIONES *** //
 
@@ -224,7 +228,7 @@ function addZombie() {
 function moveAllZombies() {
   const limit = bufferMoveLimit - Math.sqrt((bufferMoveLimit * score) / 2)
   if (bufferMove < limit) {
-    bufferMove += 10
+    bufferMove += 20
     return
   }
   bufferMove = 0
@@ -249,6 +253,8 @@ function addBullet() {
   bullet.style.left = `${parseInt(styleDoctor.left)}px`
   bullet.style.top = `${parseInt(styleDoctor.top)}px`
   game.appendChild(bullet)
+  audioShoot.volume = 0.15
+  audioShoot.play()
   return bullet
 }
 
@@ -281,6 +287,8 @@ function isCollidingBullet(bullet) {
       zombie.setAttribute('data-hp', newHp)
       if (newHp === 0) {
         updateScore(10)
+        audioZombieDie.volume = 0.1
+        audioZombieDie.play()
         zombie.remove()
       }
       return true
