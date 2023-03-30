@@ -3,6 +3,13 @@
   src: url("fonts/pkmnfl.ttf") format("truetype");
 }
 
+:root {
+    --width-game: 750px;
+    --height-game: 625px;
+    --width-doctor: 60px;
+    --width-zombie: 60px;
+}
+
 html,body {
     margin: 0;
     width: 100%;
@@ -18,8 +25,8 @@ html,body {
 }
 
 #interface {
-    width: 750px;
-    height: 625px;
+    width: var(--width-game);
+    height: var(--height-game);
     z-index: 1;
     position: absolute;
     display: flex;
@@ -53,8 +60,8 @@ html,body {
 }
 
 #game-container {
-    width: 750px;
-    height: 625px;
+    width: var(--width-game);
+    height: var(--height-game);
     position: relative;
     overflow: hidden;
     cursor: url("assets/cursor.png"), auto;
@@ -63,18 +70,18 @@ html,body {
 }
 
 #shot-area {
-    width: 750px;
-    height: 625px;
+    width: var(--width-game);
+    height: var(--height-game);
     position: absolute;
     z-index: 1;
 }
 
 #doctor {
-    width: 60px;
+    width: var(--width-doctor);
     aspect-ratio: 14/20;
     position: absolute;
     top: 500px;
-    left: calc(750px / 2 - 60px / 2);
+    left: calc(var(--width-game) / 2 - var(--width-doctor) / 2);
     background-image: url("assets/oak_1.png");
     background-position: center center;
     background-repeat: no-repeat;
@@ -82,7 +89,7 @@ html,body {
 }
 
 .zombie {
-    width: 60px;
+    width: var(--width-zombie);
     aspect-ratio: 14/20;
     position: absolute;
     top: -50px;
