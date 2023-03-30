@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "8bits";
+  src: url("fonts/pkmnfl.ttf") format("truetype");
+}
+
 html,body {
     margin: 0;
     width: 100%;
@@ -5,7 +10,11 @@ html,body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: gray;
+    font-family: '8bits';
+    background-image: url("assets/arcade_machine_1.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: black;
 }
 
 #interface {
@@ -40,7 +49,7 @@ html,body {
 }
 #game-over p {
     text-align: center;
-    margin: 0;
+    margin: 10px;
 }
 
 #game-container {
@@ -88,13 +97,13 @@ html,body {
     color: white;
     user-select: none;
     position: absolute;
+    line-height: 1;
 }
 
 .bullet {
     width: 10px;
     aspect-ratio: 1/1;
     position: absolute;
-    background-position: 0 0;
     background-image: url("assets/bullet.png");
     background-position: center center;
     background-repeat: no-repeat;
