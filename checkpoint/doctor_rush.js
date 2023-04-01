@@ -67,14 +67,16 @@ function vector(xM, yM, xD, yD, step) {
 
 function calculateStepDoctor(side) {
   let x = parseInt(doctor.style.left)
+  const min = 80
+  const max = widthGame - 60
   if (side === 'left') {
-    if (x === 0) return 0
-    if (x - stepDoctor < 0) return x
+    if (x === min) return 0
+    if (x - stepDoctor < min) return x - min
     return stepDoctor
   } else {
     x += widthDoctor
     if (x === widthGame) return 0
-    if (x + stepDoctor > widthGame) return widthGame - x
+    if (x + stepDoctor > max) return max - x
     return stepDoctor
   }
 }
@@ -198,8 +200,8 @@ function restartDoctorPos() {
 
 // Zombie
 function randomZombiePos() {
-  const min = 0
-  const max = widthGame - widthZombie
+  const min = 70
+  const max = widthGame - widthZombie - 70
   const randomNum = Math.floor(Math.random() * (max - min + 1)) + min
   return randomNum
 }
