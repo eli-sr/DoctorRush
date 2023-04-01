@@ -123,12 +123,29 @@ html,body {
     background-size: contain;
 }
 
+.score-menu {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-around;
+    position: absolute;
+    top: 10px;
+}
+
 .score {
     font-size: x-large;
     color: white;
     user-select: none;
-    position: absolute;
-    line-height: 1;
+    background-image: url("assets/score.png");
+    background-position: center center;
+    background-size: cover;
+    margin: 0;
+    padding: 10px;
+    width: 160px;
+    height: 36px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
 }
 
 .bullet {
