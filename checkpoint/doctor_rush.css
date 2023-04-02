@@ -203,3 +203,12 @@ html,body {
     color: white;
     margin-right: 10px;
 }
+
+#deco-sb {
+  width: 60px;
+  aspect-ratio: 1/1;
+  position: absolute;
+  bottom: 170px;
+  right: 180px;
+  animation: spin 3s infinite linear;
+}
