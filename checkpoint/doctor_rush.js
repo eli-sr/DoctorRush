@@ -214,6 +214,26 @@ function moveDoctor(event) {
   }
 }
 
+function moveDoctorArrows(event) {
+  if (gameOver) return
+  const key = event.key
+  let step = stepDoctor
+  switch (key) {
+    case 'ArrowLeft':
+      step = calculateStepDoctor('left')
+      move(doctor, 'left', step)
+      checkGameOver(zombies)
+      break
+    case 'ArrowRight':
+      step = calculateStepDoctor('right')
+      move(doctor, 'right', step)
+      checkGameOver(zombies)
+      break
+    default:
+      break
+  }
+}
+
 function restartDoctorPos() {
   doctor.style.left = `${(widthGame - widthDoctor) / 2}px`
 }
@@ -372,6 +392,7 @@ function bulletHitZombie(bullet, power) {
 // MAIN
 function startGame() {
   document.addEventListener('keypress', moveDoctor)
+  document.addEventListener('keydown', moveDoctorArrows)
   shootArea.addEventListener('click', shoot)
   shootArea.addEventListener('contextmenu', superShoot)
   addZombies = setInterval(addZombie, 20)
