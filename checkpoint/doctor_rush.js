@@ -49,10 +49,14 @@ let bufferSuperBullets = 0
 const audioShoot = new Audio('assets/audio/bullet.wav')
 const audioZombieDie = new Audio('assets/audio/zombie_die.wav')
 const audioMusic = new Audio('assets/audio/background_music.mp3')
-audioShoot.volume = 0.6
+const audioGameOver = new Audio('assets/audio/game-over.mp3')
+const audioCoin = new Audio('assets/audio/coin.mp3')
+audioShoot.volume = 0.7
 audioZombieDie.volume = 0.5
-audioMusic.volume = 0.3
+audioMusic.volume = 0.2
 audioMusic.loop = true
+audioGameOver.volume = 0.7
+audioCoin.volume = 0.2
 
 // *** FUNCIONES *** //
 
@@ -99,6 +103,7 @@ function checkGameOver() {
       clearInterval(moveZombies)
       clearInterval(addZombies)
       console.log('[!] Game over!')
+      audioGameOver.play()
       gameOver = true
       showGameOver()
       updateLocalHighScore()
@@ -183,6 +188,8 @@ function restartGame(event) {
     clearSuperBullets()
     // Remove game-over
     hideGameOver()
+    // Coin
+    audioCoin.play()
   }
 }
 
@@ -328,6 +335,8 @@ function superShoot(event) {
 function clearSuperBullets() {
   superBullets = 0
   bufferSuperBullets = 0
+  const sbhtml = document.getElementById('sb-counter')
+  sbhtml.innerHTML = superBullets
 }
 
 function updateSuperBullets(inc) {
@@ -368,9 +377,9 @@ function startGame() {
   addZombies = setInterval(addZombie, 20)
   moveZombies = setInterval(moveAllZombies, 10)
   document.addEventListener('keypress', restartGame)
-  //
   document.removeEventListener('keypress', startGame)
   document.getElementById('home').style.display = 'none'
+  audioCoin.play()
 }
 
 function initializeGame() {
@@ -381,10 +390,4 @@ function initializeGame() {
 
 window.onload = function () {
   initializeGame()
-
-  document.addEventListener('keypress', (event) => {
-    const key = event.key
-    if (key === ' ') score += 10
-    if (key === ' ') bufferSuperBullets += 10
-  })
 }

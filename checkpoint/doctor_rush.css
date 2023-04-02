@@ -40,10 +40,12 @@ html,body {
 #game-over {
     display: none;
     flex-direction: column;
-    background-color: red;
+    background-color: black;
     width: 100%;
     place-self: center;
     padding: 20px;
+    font-family: "8bits-bold";
+    color: white;
 }
 
 #home {
@@ -76,12 +78,15 @@ html,body {
 }
 
 #game-over #go{
-    font-size: xx-large;
+    font-size: xxx-large;
     text-align: center;
+    margin: 0;
 }
-#game-over p {
+#game-over #retry {
+    font-size: x-large;
     text-align: center;
     margin: 10px;
+    animation: parpadear 1s infinite;
 }
 
 #game-container {
