@@ -157,3 +157,44 @@ html,body {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+.super-bullet {
+    width: 50px;
+    aspect-ratio: 1/1;
+    position: absolute;
+    background-image: url("assets/super_bullet.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation: spin 500ms infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+#super-bullets {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    background-image: url("assets/panel_sb.png");
+    background-position: center center;
+    background-size: cover;
+    width: 130px;
+    height: 50px;
+}
+
+#sb-counter {
+    font-size: x-large;
+    color: white;
+    margin-right: 10px;
+}

@@ -21,6 +21,8 @@ const bufferMoveLimit = 1000
 
 // Bullets
 const shootArea = document.getElementById('shot-area')
+const superBulletsLimit = 10
+const bufferSuperBulletsLimit = 70
 
 // *** VARIABLES GLOBALES *** //
 
@@ -38,6 +40,10 @@ let bufferMove = 0
 let addZombies
 let moveZombies
 let zombiesOutCounter = 0
+
+// Bullets
+let superBullets = 0
+let bufferSuperBullets = 0
 
 // *** AUDIO*** //
 const audioShoot = new Audio('assets/audio/bullet.wav')
@@ -173,6 +179,8 @@ function restartGame(event) {
     initHighScore()
     // Restart zombiesOut
     updateZombiesOutCounter(0, 0)
+    // Restart super bullets
+    clearSuperBullets()
     // Remove game-over
     hideGameOver()
   }
@@ -264,6 +272,16 @@ function addBullet() {
   return bullet
 }
 
+function addSuperBullet() {
+  const bullet = document.createElement('div')
+  bullet.classList.add('super-bullet')
+  bullet.style.left = `${parseInt(styleDoctor.left)}px`
+  bullet.style.top = `${parseInt(styleDoctor.top)}px`
+  game.appendChild(bullet)
+  audioShoot.play()
+  return bullet
+}
+
 function shoot(event) {
   if (gameOver) return
   const xMouse = event.layerX
@@ -273,7 +291,7 @@ function shoot(event) {
   const [x, y] = vector(xMouse, yMouse, xDoc, yDoc, 20)
   const bullet = addBullet()
   const moveBulletXY = () => {
-    if (isCollidingBullet(bullet) || isOut(bullet)) {
+    if (bulletHitZombie(bullet, 1) || isOut(bullet)) {
       clearInterval(moveBullet)
       bullet.remove()
       return
@@ -284,15 +302,56 @@ function shoot(event) {
   var moveBullet = setInterval(moveBulletXY, 40)
 }
 
-function isCollidingBullet(bullet) {
+function superShoot(event) {
+  event.preventDefault()
+  if (gameOver) return
+  if (superBullets === 0) return
+  superBullets -= 1
+  const xMouse = event.layerX
+  const yMouse = event.layerY
+  const xDoc = parseInt(styleDoctor.left)
+  const yDoc = parseInt(styleDoctor.top)
+  const [x, y] = vector(xMouse, yMouse, xDoc, yDoc, 15)
+  const bullet = addSuperBullet()
+  const moveBulletXY = () => {
+    bulletHitZombie(bullet, 10)
+    if (isOut(bullet)) {
+      bullet.remove()
+      return
+    }
+    move(bullet, 'right', x)
+    move(bullet, 'down', y)
+  }
+  var moveBullet = setInterval(moveBulletXY, 40)
+}
+
+function clearSuperBullets() {
+  superBullets = 0
+  bufferSuperBullets = 0
+}
+
+function updateSuperBullets(inc) {
+  const sbhtml = document.getElementById('sb-counter')
+  bufferSuperBullets += inc
+  if (bufferSuperBullets === bufferSuperBulletsLimit) {
+    if (superBullets < superBulletsLimit) {
+      superBullets += 1
+      bufferSuperBullets = 0
+    }
+  }
+  sbhtml.innerHTML = superBullets
+}
+
+function bulletHitZombie(bullet, power) {
   const zombies = game.getElementsByClassName('zombie')
   for (let i = 0; i < zombies.length; i++) {
     const zombie = zombies[i]
     if (checkCollision(bullet, zombie)) {
-      const newHp = zombie.getAttribute('data-hp') - 1
+      const newHp = zombie.getAttribute('data-hp') - power
       zombie.setAttribute('data-hp', newHp)
-      if (newHp === 0) {
+      if (newHp <= 0) {
         updateScore(10)
+        updateSuperBullets(10)
         audioZombieDie.play()
         zombie.remove()
       }
@@ -305,6 +364,7 @@ function isCollidingBullet(bullet) {
 function startGame() {
   document.addEventListener('keypress', moveDoctor)
   shootArea.addEventListener('click', shoot)
+  shootArea.addEventListener('contextmenu', superShoot)
   addZombies = setInterval(addZombie, 20)
   moveZombies = setInterval(moveAllZombies, 10)
   document.addEventListener('keypress', restartGame)
@@ -325,5 +385,6 @@ window.onload = function () {
   document.addEventListener('keypress', (event) => {
     const key = event.key
     if (key === ' ') score += 10
+    if (key === ' ') bufferSuperBullets += 10
   })
 }
