@@ -23,7 +23,7 @@ html,body {
     align-items: center;
     justify-content: center;
     font-family: '8bits';
-    background-image: url("assets/arcade_machine_1.png");
+    background-image: url("assets/arcade_machine.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-color: black;
