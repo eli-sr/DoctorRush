@@ -2,6 +2,10 @@
 
 Doctor Rush es el primer videojuego (con un estilo muy retro) que he desarrollado con HTML, CSS y Javascript puro, con el objetivo de mejorar mis habilidades en cada una de estas tecnologías.
 
+## ¡Pruébalo!
+
+https://doctor-rush.vercel.app/
+
 ## Screenshots
 ![](images/examples.png)
 
